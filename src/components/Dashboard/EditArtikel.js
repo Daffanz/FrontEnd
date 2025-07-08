@@ -15,6 +15,8 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 
+
+
 export default function EditArtikel() {
   const [articles, setArticles] = useState([
     {
@@ -88,11 +90,11 @@ export default function EditArtikel() {
   };
  
   const handleDelete = () => {
-    const updated = articles.filter((item)=> item.id !== selectedArticle.id);
-    setArticle = (updated);
-    setModalVisible = (false);
-    selectedArticle =(null);
-  };
+  const updated = articles.filter((item) => item.id !== selectedArticle.id);
+  setArticles(updated);
+  setModalVisible(false);
+  setSelectedArticle(null);
+};
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -108,19 +110,14 @@ export default function EditArtikel() {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="green" />
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.logoutLogin}>
-          <Feather
-            name="log-out"
-            size={20}
-            color="white"
-            onPress={() => navigation.navigate('Login')}
-          />
-        </TouchableOpacity>
+   <ScrollView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="green" />
+        <View style={styles.header}>
         <Text style={styles.headerText}>Dashboard Admin - Artikel</Text>
-      </View>
+          <TouchableOpacity style={styles.logoutLogin}>
+              <Feather name="log-out" size={20} color="white" onPress={() => navigation.navigate('DashboardHome')} />
+              </TouchableOpacity> 
+        </View>
 
     
       {articles.map((item) => (
@@ -175,29 +172,27 @@ export default function EditArtikel() {
           )}
           <Button title="Pilih Gambar" onPress={pickImage} />
           <View style={{ marginTop: 20 }}>
-            <Button title="Simpan" onPress={handleSave} />
-            
-            <Button
+  <Button title="Simpan" onPress={handleSave} />
+  
+    <Button
+    title="Batal"
+    color="red"
+    onPress={() => {
+      setModalVisible(false);
+      setIsAddMode(false);
+    }}
+  />
+</View>
 
-              title="Batal"
-              color="red"
-              onPress={() => {
-              
-                setModalVisible(false);
-                setIsAddMode(false);
-              }}
-
-             
-
-               {!isAddMode && (
-              <Button
-              title="Hapus"
-              color="red"
-              onPress={handleDelete}
-              />
-              )}
-            />
-          </View>
+<View style={{ marginTop: 20 }}>
+  {!isAddMode && (
+    <Button
+      title="Hapus"
+      color="red"
+      onPress={handleDelete}
+    />
+  )}
+</View>
         </ScrollView>
       </Modal>
     </ScrollView>
@@ -209,24 +204,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+
   header: {
-    height: 80,
-    backgroundColor: 'green',
-    justifyContent: 'flex-end',
-    paddingBottom: 12,
-    paddingHorizontal: 16,
-    elevation: 4,
+  height: 100,
+  backgroundColor: 'green',
+  justifyContent: 'flex-end',
+  paddingTop: 30, 
+  paddingBottom: 12,
+  paddingHorizontal: 16,
+  elevation: 4,
   },
+
   headerText: {
     textAlign: 'center',
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
   },
+
   logoutLogin: {
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   addButton: {
     backgroundColor: 'green',
     margin: 16,
@@ -234,11 +234,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
+
   addButtonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
+
   articleCard: {
     backgroundColor: '#f9f9f9',
     margin: 16,
@@ -246,23 +248,27 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
   },
+
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
   },
+
   image: {
     width: '100%',
     height: 180,
     borderRadius: 10,
     marginBottom: 12,
   },
+
   content: {
     fontSize: 16,
     textAlign: 'justify',
     lineHeight: 22,
     color: '#333',
   },
+
   source: {
     fontSize: 14,
     fontStyle: 'italic',
@@ -270,16 +276,19 @@ const styles = StyleSheet.create({
     color: '#666',
     textAlign: 'right',
   },
+
   modalContent: {
     padding: 20,
     backgroundColor: '#fff',
   },
+
   modalTitle: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
   },
+
   input: {
     borderWidth: 1,
     borderColor: '#999',
@@ -288,15 +297,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
   },
+
   imagePreview: {
     width: '100%',
     height: 180,
     marginBottom: 12,
     borderRadius: 10,
   },
+
+  
   Button:{
     color:'red',
     fontSize: 16,
     fontWeight: 'bold',
+    margin: 20,
+
   },
 });

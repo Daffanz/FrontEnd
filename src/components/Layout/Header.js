@@ -12,6 +12,7 @@ const Header = () => {
 
       <TouchableOpacity style={styles.logoutContainer}>
         <Feather name="log-in" size={20} color="white" onPress={() => navigation.navigate('Login')} />
+           
       </TouchableOpacity>
     </View>
   );

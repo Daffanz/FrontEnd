@@ -16,7 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Feather } from '@expo/vector-icons';
 
 export default function EditGaleri() {
-  const [articles, setArticles] = useState([
+  const [galery, setGalery] = useState([
 
     {
       id: '1',
@@ -47,14 +47,14 @@ export default function EditGaleri() {
   const navigation = useNavigation();
 
 const [modalVisible, setModalVisible] = useState(false);
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [selectedGalery, setSelectedGalery] = useState(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [editImage, setEditImage] = useState(null);
   const [isAddMode, setIsAddMode] = useState(false);
 
   const openEditModal = (item) => {
-    setSelectedArticle(item);
+    setSelectedGalery(item);
     setEditTitle(item.title);
     setEditContent(item.content);
     setEditImage(item.image);
@@ -62,8 +62,8 @@ const [modalVisible, setModalVisible] = useState(false);
   };
 
   const handleSave = () => {
-    const updated = articles.map((a) =>
-      a.id === selectedArticle.id
+    const updated = galery.map((a) =>
+      a.id === selectedGalery.id
         ? {
             ...a,
             title: editTitle,
@@ -75,6 +75,13 @@ const [modalVisible, setModalVisible] = useState(false);
     setArticles(updated);
     setModalVisible(false);
   };
+
+  const handleDelete = () => {
+  const updated = galery.filter((item) => item.id !== selected.id);
+  setGalery(updated);
+  setModalVisible(false);
+  setSelectedGalery(null);
+};
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -94,18 +101,16 @@ const [modalVisible, setModalVisible] = useState(false);
     <ScrollView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="green" />
       <View style={styles.header}>
-
+      <Text style={styles.headerText}>Dashboard Admin - Galeri</Text>
         <TouchableOpacity style={styles.logoutLogin}>
-            <Feather name="log-out" size={20} color="white" onPress={() => navigation.navigate('Login')} />
-            </TouchableOpacity>
-
-        <Text style={styles.headerText}>Dashboard Admin - Artikel</Text>
+            <Feather name="log-out" size={20} color="white" onPress={() => navigation.navigate('DashboardHome')} />
+            </TouchableOpacity> 
       </View>
 
-      {articles.map((item) => (
+      {galery.map((item) => (
         <TouchableOpacity
           key={item.id}
-          style={styles.articleCard}
+          style={styles.galeryCard}
           onPress={() => openEditModal(item)}
         >
           <Text style={styles.title}>{item.title}</Text>
@@ -118,7 +123,7 @@ const [modalVisible, setModalVisible] = useState(false);
         style={styles.addButton}
         onPress={() => {
           setIsAddMode(true);
-          setSelectedArticle(null);
+          setSelectedGalery(null);
           setEditTitle('');
           setEditContent('');
           setEditImage(null);
@@ -143,20 +148,29 @@ const [modalVisible, setModalVisible] = useState(false);
           )}
 
           <Button title="Pilih Gambar" onPress={pickImage} />
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: 20 }}/>
             <Button title="Simpan" onPress={handleSave} />
             <Button
               title="Batal"
               color="red"
               onPress={() => setModalVisible(false)}
             /> 
+            
+            <View style={{ marginTop: 20 }}>
+              {!isAddMode && (
+                <Button
+                  title="Hapus"
+                  color="red"
+                  onPress={handleDelete}
+                />
+              
+              )}
           </View>
         </ScrollView>
       </Modal>
     </ScrollView>
-    
   );
-}
+  }
 
 const styles = StyleSheet.create({
   container: {
@@ -164,13 +178,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    height: 80,
-    backgroundColor: 'green',
-    justifyContent: 'flex-end',
-    paddingBottom: 12,
-    paddingHorizontal: 16,
-    elevation: 4,
-  },
+  height: 100, // atau 90 juga boleh
+  backgroundColor: 'green',
+  justifyContent: 'flex-end',
+  paddingTop: 30, // ini yang menurunkan konten ke bawah
+  paddingBottom: 12,
+  paddingHorizontal: 16,
+  elevation: 4,
+},
+
+ 
   headerText: {
     textAlign:'center',
     color: '#fff',
@@ -185,15 +202,18 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: {
+    textAlign:'center',
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   image: {
-    width: '100%',
-    height: 180,
+    width: 300,
+    height: 400,
+    marginTop: 10,
     borderRadius: 10,
-    marginBottom: 12,
+    padding: 10,
+    margin: 40,
   },
   content: {
     fontSize: 16,

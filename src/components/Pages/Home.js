@@ -62,7 +62,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 30,
-    alignItems: 'center', // 👈 ini bikin card di tengah
+    alignItems: 'center', 
   },
   title: {
     fontSize: 24,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     elevation: 3,
-    padding: 10, // Tambahkan padding agar teks tidak terlalu menempel
+    padding: 10, 
   },
   card: {
     backgroundColor: '#fff',
